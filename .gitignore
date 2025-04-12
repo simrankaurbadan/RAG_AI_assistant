@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Logs and runtime
+*.log
+*.sqlite
+*.db
+*.json
+
+# OS and editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# ChromaDB persistent directory
+/db/
+
+# Jupyter & notebooks
+.ipynb_checkpoints/
+
+# Excel logs
+chat_logs.xlsx
