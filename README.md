@@ -6,6 +6,7 @@ To develop an AI-powered customer support assistant that enhances responses usin
 
 # Database
 We will use a public customer support dataset:
+
 Link to download - https://huggingface.co/datasets/MohammadOthman/mo-customer-support-tweets-945k
 This dataset contains customer queries and support responses. You can use this for retrieval-based response generation.
 
