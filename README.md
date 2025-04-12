@@ -1,5 +1,5 @@
 # RAG_AI_assistant
-Developed an AI-powered customer support assistant that enhances responses using a foundational LLM and retrieval-augmented generation (RAG).
+Developed an AI-powered customer support assistant that enhances responses using a foundational LLM and retrieval-augmented generation (RAG). Uses chromab for creating vector database, Openai and LLama as embedding and response generation models.
 
 # Objective
 To develop an AI-powered customer support assistant that enhances responses using a foundational LLM and retrieval-augmented generation (RAG).
