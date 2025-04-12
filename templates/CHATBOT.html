@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/static/css/style.css">
+
+
+    <title>V.I.C.T.O.R - Chatbot</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-box">
+            <div class="chat-left">
+                <div class="avatar">
+                    <img src="https://iili.io/3aHch9j.gif" alt="V.I.C.T.O.R Avatar">
+                </div>
+                <div class="left-frame">
+                    <div class="description">Please select Preferred Model</div>
+                    <div class="api-buttons">
+                        <div class="api-radio">
+                            <input type="radio" id="llama" name="api" value="LLAMA">
+                            <label for="llama">LLAMA API</label>
+                        </div>
+						<div class="api-radio">
+                            <input type="radio" id="openai" name="api" value="OpenAI">
+                            <label for="openai">OpenAI API</label>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="text-box">
+                    <div class="header-box">Explainability Reason</div>
+                    <textarea readonly>Reason, Explaining the response will be Displayed here.</textarea>
+                </div>
+                <div class="similarity-score-box">
+                    <div class="similarity-box">
+                        Relevance Score
+                    </div>
+                    <div class="similarity-value">
+                        -
+                    </div>
+                </div>
+            </div>
+            
+			
+			<div class="chat-right">
+                <div class="top-image">
+                    <img src="https://iili.io/3a052S4.png" alt="himg" >
+                </div>
+				<div class="top-image-2">
+                    <img src="https://iili.io/3aJh3Cb.png" alt="bgrobo">
+                </div>
+                <div class="top-image-3">
+                    <img src="https://iili.io/3aHcVcu.gif" alt="hicon">
+                </div>
+				<div class="close-icon">
+                    <a href="Home-Page.html">
+                        <img src="https://iili.io/3aJhHu9.png" alt="icon" />
+                    </a>
+                    
+                </div>
+				
+				<div class="conversation" id="conversation">
+                    <div class="msg-inline">
+                        <img src="https://iili.io/3aHcNtV.png" alt="Bot" class="bot-icon">
+                        <div class="message bot-message">
+        
+                            <div>
+                                <p>Hi, I am V.I.C.T.O.R</p>
+                                <p>I am your personal assistant, How can I help you?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+				<div class="input-section">
+					<form method="post" action="/generate_response">
+					
+					<input type="text" id="userInput" name="user_query" placeholder="Enter your text...">
+					
+					<button type="submit" class="send-btn" id="sendBtn"></button>
+					
+					</form>
+                </div>
+				
+            </div>
+			   <div class = "power">Powered by   
+					<span><img src = "https://iili.io/3aHio6N.png" style= "height:25px;width:45px ; "></span>
+				</div>
+        </div>
+    </div>
+
+    <script>
+	
+	
+
+   
+        // Variables for DOM elements
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const micBtn = document.getElementById('micBtn');
+        const conversation = document.getElementById('conversation');
+
+        // Send button functionality
+		
+		
+		sendBtn.addEventListener('click', function(e) {
+    e.preventDefault();   // <-- Prevent form submit / page reload
+    const text = userInput.value.trim();
+
+    if (text) {
+        // append user message
+        // fetch response from backend
+        
+        fetch('/generate_response', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'user_query=' + encodeURIComponent(text)
+        })
+        .then(response => response.text())
+        .then(data => {
+            // Append Bot response
+        });
+    }
+});
+		
+
+		
+        sendBtn.addEventListener('click', function() {
+    const text = userInput.value.trim();
+    if (text) {
+        // Append user message
+        const userMessage = document.createElement('div');
+        userMessage.classList.add('user-message');
+        userMessage.innerHTML = `<div class="reply-set"><div><img src="https://iili.io/3aJhJje.webp" alt="User" class="user-icon"></div><div class="reply-txt"><p>${text}</p></div></div>`;
+        conversation.appendChild(userMessage);
+		conversation.scrollTop = conversation.scrollHeight;
+
+        // Send user input to backend
+        fetch('/generate_response', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'user_query': text
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Append bot response
+			const botMessage = document.querySelector('.bot-message');
+			const replySet = document.createElement('div');
+			replySet.classList.add('reply-set');
+			replySet.innerHTML = `
+
+			<div>
+                <img src="https://iili.io/3aHcNtV.png" alt="Bot" class="bot-icon">
+            </div>
+            
+			<div class="bot-message">
+                <p>${data.response}</p>
+            </div>
+        `;
+ 
+            conversation.appendChild(replySet);
+			conversation.scrollTop = conversation.scrollHeight;
+			
+			document.querySelector('.text-box textarea').value = data.explainability_reason;
+
+			// Update Similarity Score
+			document.querySelector('.similarity-value').innerText = `${data.similarity_score}`;
+
+            conversation.scrollTop = conversation.scrollHeight;
+        });
+
+        userInput.value = '';
+    }
+});
+
+		
+		
+		
+    </script>
+</body>
+</html>
