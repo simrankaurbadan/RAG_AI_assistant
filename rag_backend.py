@@ -18,8 +18,8 @@ embedding_function = OpenAIEmbeddingFunction(
 )
 
 # Initialize ChromaDB Client
-client = chromadb.PersistentClient(path="/db")
-collection_name = 'chat1'
+client = chromadb.PersistentClient(path="/db_sample")
+collection_name = 'sample_data' # change based on your database name
 collection = client.get_collection(name=collection_name, embedding_function=embedding_function)
 
 # Initialize LlamaAPI Client
