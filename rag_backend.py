@@ -66,7 +66,7 @@ def generate_response(user_query):
         "evaluation": {{
             "Explanation": "In detail, explain how you arrived at this response using the provided context.",
             "Relevance": "A one-line explanation of why the response is relevant to the user query.",
-            "Relevance_score": "Return a relevance score percentage (0% to 100%) indicating how closely the response matches the user query based on semantic similarity."
+            "Relevance_score": "Return a relevance score percentage (0% to 100%) indicating how closely the response matches the user query based on semantic similarity. Use this formula as your baseline to calculate - relevance_score = dot(user_query, response) / (norm(user_query) * norm(response))"
         }}
     }}
     """
