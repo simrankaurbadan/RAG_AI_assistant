@@ -3,11 +3,381 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="/static/css/style.css">
-
-
     <title>V.I.C.T.O.R - Chatbot</title>
-    <link rel="stylesheet" href="css/style.css">
+<style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://iili.io/3aHMSKN.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .chat-container {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .chat-box {
+            display: flex;
+            height: 90vh;
+            width: 80%;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Shadow with 50% opacity */
+        }
+
+        .chat-left {
+            background-color: #3a3a3a;
+            color: white;
+            padding: 20px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .avatar img {
+            margin-top: -75px;
+            border-radius: 50%;
+            width: 370px;
+            height: 300px;
+            margin-bottom: 0px;
+        }
+
+        .description {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .api-buttons {
+            margin-top: 5px;
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            text-align: left;
+        }
+
+        .api-radio input {
+            margin-top: 0;
+        }
+
+        .text-box {
+            width: 100%;
+            margin-top: 10px;
+            background: #000;
+            border-radius: 10px;
+            padding-left: 7px;
+            padding-right: 7px;
+            padding-bottom: 4px;
+        }
+
+        .text-box textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: none;
+            height: 100px;
+        }
+
+        .similarity-score-box {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .similarity-box {
+            background-color: #51df42;
+            color: white;
+            padding: 10px;
+            width: 195px;
+            text-align: center;
+            font-weight: 700;
+            border-radius: 0;
+			font-size: 17px;
+        }
+
+        .similarity-value {
+            border: 1px solid #fff;
+            padding: 10px;
+            width: 30%;
+            text-align: center;
+            background: #fff;
+            color: #000;
+            font-weight: 700;
+        }
+
+        .chat-right {
+			background-image: url('https://iili.io/3az0DHg.png');
+			/* background-image-opacity: 0.1; */
+
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+        }
+        .top-image{
+            position: absolute;
+            top:0;
+            left:0;
+            right:0;
+            width:100%;
+            z-index: 1;
+
+        }
+        .top-image img{
+            width:100%
+        }
+
+		.top-image-2{
+            position: absolute;
+            top: 5px;
+            left: 20px;
+            z-index: 11;
+        }
+        .top-image-2 img{
+            width:180px
+        }
+        .top-image-3{
+            position: absolute;
+            top: 60px;
+            left: 13px;
+            z-index: 11;
+        }
+        .top-image-3 img{
+            width:100px
+        }
+       
+		.header-icon {
+			width: 150px;
+            height: 50px;
+			margin-top: -100px;
+			margin-bottom: 60px;
+			z-index: 1;
+		}
+		
+		.bighead-robo{
+			width: 80px;
+            height: 50px;
+			margin-top: -50px;
+			margin-bottom: 60px;
+			z-index: 1;
+		
+		}
+	   
+	   .conversation {
+        
+            overflow-y: auto;
+            margin-bottom: 20px;
+            align-items: center;
+            margin-top:110px
+        }
+        .reply-txt p{
+            font-size: 14px;
+            line-height: 20px;
+        }
+		
+        .message {
+            display: flex;
+            margin: 10px 0;
+            padding: 10px;
+			position: relative; /* To allow icon outside the bubble */
+			max-width: 70%;
+            border-radius: 10px;
+        }
+        .msg-inline{
+            display: flex;
+            align-items: center;
+        }
+
+        .bot-message {
+            background: #c4f6c1;
+            width: 48%;
+            margin-right: 10px;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            text-align: left;
+			
+        }
+        .bot-message p{
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        /* .user-message {
+            background-color: #f1c2c2;
+            margin-right: 0;
+            gap: 10px;
+            padding-right: 50px; 
+        } */
+
+        .message img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .reply-txt{
+            background: #fcc5ec;
+            width: 48%;
+            margin-right: 10px;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            text-align: left;
+	    direction: ltr;
+        }
+
+        .user-message{
+            direction: rtl;
+        }
+
+        .conversation .bot-icon {
+			width: 45px;
+            height: 45px;
+        }
+
+        .conversation .user-icon {
+			width: 45px;
+            height: 45px;
+
+			
+        }
+
+        .input-section {
+            display: block;
+            gap: 10px;
+            align-items: center;
+            background: #cfd4c7;
+            padding: 8px;
+            border-radius: 60px;
+        }
+
+		.input-section form {
+			display: flex;
+			align-items: center;
+			justify-content: center;  /* or space-between / flex-start based on your need */
+			gap: 10px;  /* Optional: space between input and button */
+		}
+
+		.input-section input {
+			flex: 1; /* Input will take remaining space */
+			padding: 10px; /* Your desired padding */
+			border: 1px solid #ccc; /* Optional */
+			border-radius: 5px; /* Optional */
+		}
+
+        input[type="text"] {
+            width: 100%;
+            padding: 13px 15px;
+            border-radius: 30px;
+            border: 1px solid #ccc;
+        }
+        input:focus{
+            outline: none;
+        }
+        .reply-set{
+            display: flex;
+            align-items: center;
+        }
+		.power {
+			position: absolute;
+			display: flex;
+			align-items: center;
+			justify-content: center;  /* Added this line */
+			gap: 10px;
+			bottom: 12px;
+			left: 10.5%;
+			right: 10.5%;
+			text-align: center;
+			font-family: Arial, sans-serif;
+			font-weight: bold;
+			font-size: 14px;
+			background: #efefef;
+			border-radius: 10px;
+            background-color: #FBE2D5;
+            height:30px;
+            color: #000000;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.5)
+		}
+
+		.power span {
+		   color: blue;
+		   font-weight: bold;
+		   font-family: Adobe fan heiti std b;
+		}
+		
+        .send-btn {
+            background-image: url('https://iili.io/3af7zkF.webp');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 40px;
+            height: 40px;
+            border: none;
+            cursor: pointer;
+            background-color: transparent;
+        }
+
+        .send-btn:hover {
+            opacity: 0.8;
+        }
+
+        .mic-btn {
+            background-image: url('https://iili.io/3aILsYN.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 40px;
+            height: 40px;
+            border: none;
+            cursor: pointer;
+            background-color: transparent;
+        }
+
+        .mic-btn:hover {
+            opacity: 0.8;
+        }
+
+        .header-box {
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 9px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .left-frame{
+            border:3px solid #fff;
+            padding:15px
+        }
+        .close-icon{
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            z-index: 11;
+        }
+        .close-icon img{
+            width:40px
+        }
+
+</style>
+
+	
 </head>
 <body>
     <div class="chat-container">
@@ -20,7 +390,7 @@
                     <div class="description">Please select Preferred Model</div>
                     <div class="api-buttons">
                         <div class="api-radio">
-                            <input type="radio" id="llama" name="api" value="LLAMA">
+                            <input type="radio" id="llama" name="api" value="LLAMA" checked>
                             <label for="llama">LLAMA API</label>
                         </div>
 						<div class="api-radio">
